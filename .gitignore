@@ -1,0 +1,9 @@
+# Build artifacts
+**/target/
+
+# IDEs
+.idea
+.vscode
+
+# Mac OS
+.DS_Store
