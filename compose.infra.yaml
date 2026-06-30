@@ -1,0 +1,31 @@
+name: time-orchestrator-infra
+
+services:
+  auth:
+    image: quay.io/keycloak/keycloak:26.6
+    container_name: "auth"
+    environment:
+      KC_HOSTNAME: http://localhost:8090
+      KC_HTTP_PORT: 8090
+      KC_HOSTNAME_BACKCHANNEL_DYNAMIC: true
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_HEALTH_ENABLED: true
+      POSTMAN_CLIENT_SECRET: postman_secret
+    command: "start-dev --import-realm"
+    ports:
+      - "8090:8090"
+    volumes:
+      - ./local-provision/keycloak:/opt/keycloak/data/import:ro
+    healthcheck:
+      test: "{ printf 'HEAD /health/ready HTTP/1.0\r\n\r\n' >&0; grep 'HTTP/1.0 200'; } 0<>/dev/tcp/localhost/9000"
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - time-orchestrator
+
+networks:
+  time-orchestrator:
+    driver: bridge
