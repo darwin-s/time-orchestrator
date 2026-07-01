@@ -30,6 +30,12 @@ services:
     build:
       dockerfile: config-server/Dockerfile
       context: .
+    develop:
+      watch:
+        - action: rebuild
+          path: config-server
+          ignore:
+            - target
     ports:
       - "8888:8888"
     healthcheck:
