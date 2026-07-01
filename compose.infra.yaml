@@ -15,6 +15,7 @@ services:
     ports:
       - "8443:8443"
     volumes:
+      - auth-data:/opt/keycloak/data
       - ./local-provision/keycloak:/opt/keycloak/data/import:ro
     healthcheck:
       test: "{ printf 'HEAD /health/ready HTTP/1.0\r\n\r\n' >&0; grep 'HTTP/1.0 200'; } 0<>/dev/tcp/localhost/9000"
@@ -51,3 +52,6 @@ services:
 networks:
   time-orchestrator:
     driver: bridge
+
+volumes:
+  auth-data:
