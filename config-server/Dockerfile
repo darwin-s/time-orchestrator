@@ -4,10 +4,10 @@ WORKDIR /app
 
 COPY pom.xml .
 COPY config-server/pom.xml config-server/pom.xml
-RUN mvn -B -ntp dependency:go-offline -pl config-server -am
+RUN mvn -B -ntp dependency:go-offline -f config-server/pom.xml
 
 COPY config-server/src config-server/src
-RUN mvn clean package -B -ntp -pl config-server -am -DskipTests -Dmaven.source.skip=true -Dmaven.javadoc.skip=true
+RUN mvn clean package -B -ntp -DskipTests -Dmaven.source.skip=true -Dmaven.javadoc.skip=true -f config-server/pom.xml
 
 FROM eclipse-temurin:25-jre-alpine
 

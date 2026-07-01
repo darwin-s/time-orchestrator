@@ -4,10 +4,10 @@ WORKDIR /app
 
 COPY pom.xml .
 COPY user-service/pom.xml user-service/pom.xml
-RUN mvn -B -ntp dependency:go-offline -pl user-service -am
+RUN mvn -B -ntp dependency:go-offline -f user-service/pom.xml
 
 COPY user-service/src user-service/src
-RUN mvn clean package -B -ntp -pl user-service -am -DskipTests -Dmaven.source.skip=true -Dmaven.javadoc.skip=true
+RUN mvn clean package -B -ntp -DskipTests -Dmaven.source.skip=true -Dmaven.javadoc.skip=true -f user-service/pom.xml
 
 FROM eclipse-temurin:25-jre-alpine
 
