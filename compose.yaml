@@ -17,6 +17,33 @@ services:
     networks:
       - time-orchestrator
 
+  prometheus:
+    image: prom/prometheus:v3.13.0
+    ports:
+      - "9090:9090"
+    depends_on:
+      user:
+        condition: service_healthy
+    volumes:
+      - ./local-provision/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    networks:
+      - time-orchestrator
+
+  grafana:
+    image: grafana/grafana:9.1.7
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GH_SECURITY_ADMIN_PASSWORD: admin
+    ports:
+      - "3000:3000"
+    depends_on:
+      prometheus:
+        condition: service_started
+    volumes:
+      - ./local-provision/grafana/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
+    networks:
+      - time-orchestrator
+
   user-db:
     image: postgres:18.4-alpine
     environment:
@@ -46,6 +73,7 @@ services:
       DB_URL: user-db:5432/users
       DB_USERNAME: admin
       DB_PASSWORD: admin
+      AUTH_PUBLIC_URL: http://localhost:8443
       AUTH_BASE_URL: http://auth:8443
       AUTH_REALM: time-orchestrator
       SPRING_PROFILES_ACTIVE: compose
