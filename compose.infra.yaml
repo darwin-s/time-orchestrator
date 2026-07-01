@@ -18,10 +18,11 @@ services:
       - ./local-provision/keycloak:/opt/keycloak/data/import:ro
     healthcheck:
       test: "{ printf 'HEAD /health/ready HTTP/1.0\r\n\r\n' >&0; grep 'HTTP/1.0 200'; } 0<>/dev/tcp/localhost/9000"
-      interval: 30s
+      interval: 15s
       timeout: 10s
-      retries: 3
-      start_period: 10s
+      retries: 10
+      start_period: 5s
+    restart: always
     networks:
       - time-orchestrator
 
@@ -33,10 +34,11 @@ services:
       - "8888:8888"
     healthcheck:
       test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8090/actuator/health" ]
-      interval: 30s
+      interval: 10s
       timeout: 10s
-      retries: 3
-      start_period: 10s
+      retries: 10
+      start_period: 3s
+    restart: always
     networks:
       - time-orchestrator
 
