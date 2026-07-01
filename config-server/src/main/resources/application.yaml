@@ -12,3 +12,14 @@ spring:
           default-label: master
         native:
           search-locations: file:///${CONFIG_DIR}
+
+management:
+  server:
+    port: 8090
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
