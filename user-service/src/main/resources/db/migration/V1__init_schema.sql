@@ -1,5 +1,5 @@
-CREATE TABLE users (
+CREATE TABLE user_data (
     id VARCHAR(36) PRIMARY KEY,
-    profile_url VARCHAR(512),
+    profile_image_url VARCHAR(512),
     timezone VARCHAR(128)
 );
