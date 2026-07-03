@@ -1,6 +1,21 @@
 name: time-orchestrator-infra
 
 services:
+  lgtm:
+    image: grafana/otel-lgtm:0.28.0
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    ports:
+      - "3000:3000"
+      - "3200:3200"
+      - "4040:4040"
+      - "9090:9090"
+      - "4317:4317"
+      - "4318:4318"
+    networks:
+      - time-orchestrator
+
   auth:
     image: quay.io/keycloak/keycloak:26.6
     environment:

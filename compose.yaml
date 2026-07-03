@@ -17,33 +17,6 @@ services:
     networks:
       - time-orchestrator
 
-  prometheus:
-    image: prom/prometheus:v3.13.0
-    ports:
-      - "9090:9090"
-    depends_on:
-      user:
-        condition: service_healthy
-    volumes:
-      - ./local-provision/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-    networks:
-      - time-orchestrator
-
-  grafana:
-    image: grafana/grafana:9.1.7
-    environment:
-      GF_SECURITY_ADMIN_USER: admin
-      GF_SECURITY_ADMIN_PASSWORD: admin
-    ports:
-      - "3000:3000"
-    depends_on:
-      prometheus:
-        condition: service_started
-    volumes:
-      - ./local-provision/grafana/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
-    networks:
-      - time-orchestrator
-
   user-db:
     image: postgres:18.4-alpine
     environment:
@@ -76,6 +49,9 @@ services:
       AUTH_PUBLIC_URL: http://localhost:8443/realms/time-orchestrator
       AUTH_JWK_SET_URL: http://auth:8443/realms/time-orchestrator/protocol/openid-connect/certs
       SPRING_PROFILES_ACTIVE: compose
+      LOGGING_EXPORT_ENDPOINT: http://lgtm:4318/v1/logs
+      TRACING_EXPORT_ENDPOINT: http://lgtm:4318/v1/traces
+      METRICS_EXPORT_ENDPOINT: http://lgtm:4318/v1/metrics
     develop:
       watch:
         - action: rebuild
