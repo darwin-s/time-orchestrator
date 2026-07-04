@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -17,6 +18,7 @@ import java.io.IOException;
  * Filter for setting a trace ID in the http headers
  */
 @RequiredArgsConstructor
+@Component
 public class TraceIdFilter extends OncePerRequestFilter {
     private final static String TRACE_HEADER_NAME = "X-Trace-Id";
     private final Tracer tracer;
