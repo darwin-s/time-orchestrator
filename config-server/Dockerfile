@@ -3,6 +3,14 @@ FROM maven:3.9.16-amazoncorretto-25-alpine AS build
 WORKDIR /app
 
 COPY pom.xml .
+RUN mvn clean install -B -ntp -N
+
+COPY common-config/pom.xml common-config/pom.xml
+RUN mvn -B -ntp dependency:go-offline -f common-config/pom.xml
+
+COPY common-config/src common-config/src
+RUN mvn clean install -B -ntp -DskipTests -Dmaven.source.skip=true -Dmaven.javadoc.skip=true -f common-config/pom.xml
+
 COPY config-server/pom.xml config-server/pom.xml
 RUN mvn -B -ntp dependency:go-offline -f config-server/pom.xml
 

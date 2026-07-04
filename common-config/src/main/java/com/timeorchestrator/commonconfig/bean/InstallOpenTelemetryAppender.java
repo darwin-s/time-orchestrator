@@ -1,18 +1,18 @@
-package com.timeorchestrator.userservice.bean;
+package com.timeorchestrator.commonconfig.bean;
 
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.instrumentation.logback.appender.v1_0.OpenTelemetryAppender;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.stereotype.Component;
 
 /**
  * Bean for setting the Open Telemetry log appender
  */
-@Component
-@RequiredArgsConstructor
 public class InstallOpenTelemetryAppender implements InitializingBean {
     private final OpenTelemetry openTelemetry;
+
+    public InstallOpenTelemetryAppender(OpenTelemetry openTelemetry) {
+        this.openTelemetry = openTelemetry;
+    }
 
     @Override
     public void afterPropertiesSet() {

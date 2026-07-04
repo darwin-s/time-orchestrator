@@ -1,6 +1,9 @@
 # Build artifacts
 **/target/
 
+# Flattened POMs
+**/.flattened-pom.xml
+
 # IDEs
 .idea
 .vscode
