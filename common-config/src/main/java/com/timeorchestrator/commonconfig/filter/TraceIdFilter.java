@@ -16,7 +16,7 @@ import java.io.IOException;
  * Filter for setting a trace ID in the http headers
  */
 public class TraceIdFilter extends OncePerRequestFilter {
-    private final static String TRACE_HEADER_NAME = "X-Trace-Id";
+    private static final String TRACE_HEADER_NAME = "X-Trace-Id";
     private final Tracer tracer;
 
     public TraceIdFilter(Tracer tracer) {

@@ -22,9 +22,9 @@ import static org.mockito.Mockito.when;
  * Trace ID Filter tests
  */
 @ExtendWith(MockitoExtension.class)
-public class TraceIdFilterTest {
-    private final static String HEADER_NAME = "X-Trace-Id";
-    private final static String TEST_TRACE = "trace123";
+class TraceIdFilterTest {
+    private static final String HEADER_NAME = "X-Trace-Id";
+    private static final String TEST_TRACE = "trace123";
 
     @Mock
     private Tracer tracer;
@@ -43,7 +43,7 @@ public class TraceIdFilterTest {
     private MockHttpServletResponse response;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
 
@@ -53,7 +53,7 @@ public class TraceIdFilterTest {
     }
 
     @Test
-    public void traceIdHeaderPresentWhenTracingContextIsNotNull() throws Exception {
+    void traceIdHeaderPresentWhenTracingContextIsNotNull() throws Exception {
         when(currentTraceContext.context()).thenReturn(traceContext);
         when(traceContext.traceId()).thenReturn(TEST_TRACE);
 
@@ -64,7 +64,7 @@ public class TraceIdFilterTest {
     }
 
     @Test
-    public void traceIdHeaderNotPresentWhenTracingContextIsNull() throws Exception {
+    void traceIdHeaderNotPresentWhenTracingContextIsNull() throws Exception {
         when(currentTraceContext.context()).thenReturn(null);
 
         traceIdFilter.doFilterInternal(request, response, filterChain);
