@@ -1,4 +1,4 @@
-package com.timeorchestrator.userservice.filter;
+package com.timeorchestrator.commonconfig.filter;
 
 import io.micrometer.tracing.TraceContext;
 import io.micrometer.tracing.Tracer;
@@ -7,9 +7,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -17,11 +15,13 @@ import java.io.IOException;
 /**
  * Filter for setting a trace ID in the http headers
  */
-@RequiredArgsConstructor
-@Component
 public class TraceIdFilter extends OncePerRequestFilter {
-    private final static String TRACE_HEADER_NAME = "X-Trace-Id";
+    private static final String TRACE_HEADER_NAME = "X-Trace-Id";
     private final Tracer tracer;
+
+    public TraceIdFilter(Tracer tracer) {
+        this.tracer = tracer;
+    }
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,

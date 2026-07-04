@@ -46,6 +46,10 @@ services:
     build:
       dockerfile: config-server/Dockerfile
       context: .
+    environment:
+      LOGGING_EXPORT_ENDPOINT: http://lgtm:4318/v1/logs
+      TRACING_EXPORT_ENDPOINT: http://lgtm:4318/v1/traces
+      METRICS_EXPORT_ENDPOINT: http://lgtm:4318/v1/metrics
     develop:
       watch:
         - action: rebuild
